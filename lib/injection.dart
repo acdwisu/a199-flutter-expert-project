@@ -74,6 +74,7 @@ void init() {
   locator.registerLazySingleton(() => SaveWatchlist(locator()));
   locator.registerLazySingleton(() => RemoveWatchlist(locator()));
   locator.registerLazySingleton(() => GetWatchlistMovies(locator()));
+  locator.registerLazySingleton(() => GetWatchlistMovies(locator()));
 
   // repository
   locator.registerLazySingleton<MovieRepository>(

@@ -31,9 +31,9 @@ final kTextTheme = TextTheme(
 
 const kColorScheme = ColorScheme(
   primary: kMikadoYellow,
-  primaryContainer: kMikadoYellow,
+  primaryVariant: kMikadoYellow,
   secondary: kPrussianBlue,
-  secondaryContainer: kPrussianBlue,
+  secondaryVariant: kPrussianBlue,
   surface: kRichBlack,
   background: kRichBlack,
   error: Colors.red,
