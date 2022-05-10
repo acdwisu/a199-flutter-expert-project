@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
+import 'package:ditonton/data/datasources/movie_local_data_source.dart';
 import 'package:ditonton/data/models/genre_model.dart';
 import 'package:ditonton/data/models/movie_detail_model.dart';
 import 'package:ditonton/data/models/movie_model.dart';
@@ -9,6 +10,7 @@ import 'package:ditonton/data/repositories/movie_repository_impl.dart';
 import 'package:ditonton/common/exception.dart';
 import 'package:ditonton/common/failure.dart';
 import 'package:ditonton/domain/entities/movie.dart';
+import 'package:ditonton/domain/entities/movie_category.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
@@ -157,6 +159,19 @@ void main() {
             verify(mockLocalDataSource.getCachedNowPlayingMovies());
             final resultList = result.getOrElse(() => []);
             expect(resultList, [testMovieCache].map((e) => e.toEntity()));
+          });
+
+      test(
+          'should return CacheFailure when app has no cache',
+          () async {
+            // arrange
+            when(mockLocalDataSource.getCachedNowPlayingMovies())
+                .thenThrow(CacheException('No Cache'));
+            // act
+            final result = await repository.getNowPlayingMovies();
+            // assert
+            verify(mockLocalDataSource.getCachedNowPlayingMovies());
+            expect(result, Left(CacheFailure('No Cache')));
           });
     });
   });

@@ -34,13 +34,15 @@ class MovieRepositoryImpl implements MovieRepository {
         return Right(result.map((model) => model.toEntity()).toList());
       } on ServerException {
         return Left(ServerFailure(''));
-      } on SocketException {
-        return Left(ConnectionFailure('Failed to connect to the network'));
       }
     } else {
-      final result = await localDataSource.getCachedNowPlayingMovies();
+      try {
+        final result = await localDataSource.getCachedNowPlayingMovies();
 
-      return Right(result.map((e) => e.toEntity()).toList());
+        return Right(result.map((e) => e.toEntity()).toList());
+      } on CacheException catch(e) {
+        return Left(CacheFailure(e.message));
+      }
     }
   }
 
